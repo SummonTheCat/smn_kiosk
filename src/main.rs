@@ -9,6 +9,7 @@ use std::path::PathBuf;
 use crate::managers::PluginManager;
 use crate::plugins::plugin_board::PluginBoard;
 use crate::plugins::plugin_static::PluginStatic;
+use crate::plugins::plugin_status::PluginStatus;
 use crate::structures::{SmnRequest, SmnResponse};
 
 fn handle_client(mut stream: TcpStream, plugin_manager: &PluginManager) {
@@ -159,6 +160,7 @@ fn main() -> std::io::Result<()> {
     let mut plugin_manager = PluginManager::new();
 
     plugin_manager.register(Box::new(PluginBoard::new()));
+    plugin_manager.register(Box::new(PluginStatus::new(port)));
     plugin_manager.register(Box::new(PluginStatic {
         root: PathBuf::from("res/static"),
     }));
